@@ -1,13 +1,19 @@
 package graphql
 
-type graphErr struct {
+type GraphErr struct {
 	Message         string
 	ErrorExtensions map[string]interface{} `json:"extensions"`
+	Locations       []Location             `json:"locations"`
+	Path            []string               `json:"path"`
+}
+type Location struct {
+	Column int `json:"column"`
+	Line   int `json:"line"`
 }
 
-func (e *graphErr) Extensions() map[string]interface{} {
+func (e *GraphErr) Extensions() map[string]interface{} {
 	return e.ErrorExtensions
 }
-func (e graphErr) Error() string {
+func (e GraphErr) Error() string {
 	return "graphql: " + e.Message
 }

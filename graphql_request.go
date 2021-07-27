@@ -6,17 +6,17 @@ import (
 	"net/http"
 )
 
-// GraphqlRequest is a GraphQL request.
-type GraphqlRequest struct {
+// GraphRequest is a GraphQL request.
+type GraphRequest struct {
 	query  string
 	vars   map[string]interface{}
 	files  []File
 	Header http.Header
 }
 
-// NewGraphqlRequest makes a new GraphqlRequest with the specified query string.
-func NewGraphqlRequest(query string) *GraphqlRequest {
-	req := &GraphqlRequest{
+// NewGraphqlRequest makes a new GraphRequest with the specified query string.
+func NewGraphqlRequest(query string) *GraphRequest {
+	req := &GraphRequest{
 		query:  query,
 		Header: make(map[string][]string),
 	}
@@ -24,32 +24,32 @@ func NewGraphqlRequest(query string) *GraphqlRequest {
 }
 
 // Var sets a variable.
-func (req *GraphqlRequest) Var(key string, value interface{}) {
+func (req *GraphRequest) Var(key string, value interface{}) {
 	if req.vars == nil {
 		req.vars = make(map[string]interface{})
 	}
 	req.vars[key] = value
 }
 
-// Vars gets the variables for this GraphqlRequest.
-func (req *GraphqlRequest) Vars() map[string]interface{} {
+// Vars gets the variables for this GraphRequest.
+func (req *GraphRequest) Vars() map[string]interface{} {
 	return req.vars
 }
 
 // Files gets the files in this request.
-func (req *GraphqlRequest) Files() []File {
+func (req *GraphRequest) Files() []File {
 	return req.files
 }
 
 // Query gets the query string of this request.
-func (req *GraphqlRequest) Query() string {
+func (req *GraphRequest) Query() string {
 	return req.query
 }
 
 // File sets a file to upload.
 // Files are only supported with a Client that was created with
 // the UseMultipartForm option.
-func (req *GraphqlRequest) File(fieldname, filename string, r io.Reader) {
+func (req *GraphRequest) File(fieldname, filename string, r io.Reader) {
 	req.files = append(req.files, File{
 		Field: fieldname,
 		Name:  filename,
